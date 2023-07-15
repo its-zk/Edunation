@@ -12,7 +12,11 @@ class CourseInfo extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon(Icons.menu, color: Colors.black),
+        leading: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: const Icon(Icons.chevron_left, color: Colors.black)),
         centerTitle: true,
         title: const Text(
           "EDUNATION",
