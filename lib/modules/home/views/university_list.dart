@@ -1,10 +1,11 @@
+import 'package:edunation/modules/common/models/university_model.dart';
 import 'package:edunation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UniversityList extends StatelessWidget {
-  const UniversityList({super.key});
-
+  const UniversityList({super.key, required this.uniListArgs});
+  final UniListArgs uniListArgs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +40,9 @@ class UniversityList extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const Text(
-                "Peshawar/Software Engineering",
-                style: TextStyle(
+              Text(
+                "Peshawar/${uniListArgs.program}",
+                style: const TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w300,
                 ),
@@ -54,12 +55,13 @@ class UniversityList extends StatelessWidget {
                 ),
               ),
               UniversityCard(
-                location: 'location',
-                totalSemesters: '4',
+                location: uniListArgs.universityModel.location,
+                totalSemesters: '8',
                 totalYears: '4',
-                uniName: 'abc',
+                uniName: uniListArgs.universityModel.name,
+                image: uniListArgs.universityModel.logo,
                 onReadMore: () {
-                  Get.toNamed(Routes.courseInfo);
+                  Get.toNamed(Routes.courseInfo, arguments: uniListArgs);
                 },
               ),
             ],
@@ -77,8 +79,9 @@ class UniversityCard extends StatelessWidget {
       required this.totalSemesters,
       required this.onReadMore,
       required this.totalYears,
+      required this.image,
       required this.uniName});
-  final String uniName, location, totalSemesters, totalYears;
+  final String uniName, location, totalSemesters, totalYears, image;
   final Function() onReadMore;
   @override
   Widget build(BuildContext context) {
@@ -96,10 +99,13 @@ class UniversityCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: Get.height * 0.08,
                 width: Get.width * 0.4,
-                decoration: const BoxDecoration(color: Colors.amber),
+                child: Image.network(
+                  image,
+                  fit: BoxFit.contain,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
@@ -153,9 +159,7 @@ class UniversityCard extends StatelessWidget {
                     const SizedBox(width: 5),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.courseInfo);
-                        },
+                        onTap: onReadMore,
                         child: Container(
                           height: Get.height * 0.05,
                           decoration: BoxDecoration(
@@ -182,4 +186,10 @@ class UniversityCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class UniListArgs {
+  UniListArgs({required this.program, required this.universityModel});
+  final UniversityModel universityModel;
+  final String program;
 }

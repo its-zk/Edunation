@@ -1,10 +1,12 @@
+import 'package:edunation/modules/home/views/university_list.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Programs extends StatelessWidget {
-  const Programs({super.key});
-
+  const Programs({super.key, required this.uniListArgs});
+  final UniListArgs uniListArgs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,9 +41,9 @@ class Programs extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                const Text(
-                  "Peshawar/Software Engineering/University Name/Eligibility",
-                  style: TextStyle(
+                Text(
+                  "Peshawar/${uniListArgs.program}/${uniListArgs.universityModel.name}/View All Programs",
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w300,
                   ),
@@ -56,10 +58,10 @@ class Programs extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: Get.height * 0.04),
                   child: Center(
-                    child: Container(
+                    child: SizedBox(
                       height: Get.height * 0.08,
                       width: Get.width * 0.4,
-                      decoration: const BoxDecoration(color: Colors.amber),
+                      child: Image.network(uniListArgs.universityModel.logo),
                     ),
                   ),
                 ),
@@ -273,7 +275,12 @@ class Programs extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () {})
+                                  ..onTap = () async {
+                                    final Uri url = Uri.parse(
+                                        "https://imsciences.edu.pk/udergratuate/");
+
+                                    await launchUrl(url);
+                                  })
                           ]),
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:edunation/modules/home/controller/course_info_binding.dart';
 import 'package:edunation/modules/home/controller/home_controller_binding.dart';
 import 'package:edunation/modules/home/views/course_info.dart';
 import 'package:edunation/modules/home/views/eligibility.dart';
@@ -48,13 +49,37 @@ class Routes {
       name: login,
       page: () => Login(),
     ),
+    GetPage(name: home, page: () => Home(), binding: HomeControllerBinding()),
     GetPage(
-        name: home, page: () => const Home(), binding: HomeControllerBinding()),
-    GetPage(name: universityList, page: () => const UniversityList()),
-    GetPage(name: courseInfo, page: () => const CourseInfo()),
-    GetPage(name: feeStructure, page: () => const FeeStructure()),
-    GetPage(name: faculty, page: () => const Faculty()),
-    GetPage(name: eligibility, page: () => const Eligibility()),
-    GetPage(name: programs, page: () => const Programs()),
+        name: universityList,
+        page: () => UniversityList(
+              uniListArgs: Get.arguments as UniListArgs,
+            )),
+    GetPage(
+        name: courseInfo,
+        page: () => CourseInfo(
+              uniListArgs: Get.arguments as UniListArgs,
+            ),
+        binding: CourseInfoBinding()),
+    GetPage(
+        name: feeStructure,
+        page: () => FeeStructure(
+              uniListArgs: Get.arguments as UniListArgs,
+            )),
+    GetPage(
+        name: faculty,
+        page: () => Faculty(
+              uniListArgs: Get.arguments as UniListArgs,
+            )),
+    GetPage(
+        name: eligibility,
+        page: () => Eligibility(
+              uniListArgs: Get.arguments as UniListArgs,
+            )),
+    GetPage(
+        name: programs,
+        page: () => Programs(
+              uniListArgs: Get.arguments as UniListArgs,
+            )),
   ];
 }

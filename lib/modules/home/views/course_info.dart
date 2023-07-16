@@ -1,10 +1,28 @@
+import 'package:edunation/modules/home/controller/course_info_controller.dart';
+import 'package:edunation/modules/home/views/university_list.dart';
 import 'package:edunation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class CourseInfo extends StatelessWidget {
-  const CourseInfo({super.key});
+class CourseInfo extends StatefulWidget {
+  const CourseInfo({super.key, required this.uniListArgs});
+  final UniListArgs uniListArgs;
+
+  @override
+  State<CourseInfo> createState() => _CourseInfoState();
+}
+
+class _CourseInfoState extends State<CourseInfo> {
+  @override
+  void initState() {
+    Get.find<CourseInfoController>().getCourseInfo(
+        uniId: widget.uniListArgs.universityModel.id,
+        program: widget.uniListArgs.program);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,114 +46,30 @@ class CourseInfo extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Selected:",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              const Text(
-                "Peshawar/Software Engineering/University Name",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 12.0),
-                child: Divider(
-                  color: Colors.black,
-                  thickness: 0.5,
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
+        child:
+            GetBuilder<CourseInfoController>(builder: (courseInfoController) {
+          return !courseInfoController.isCourseInfoLoaded
+              ? Center(
+                  child: LoadingAnimationWidget.threeRotatingDots(
+                      color: Colors.blue, size: 40),
+                )
+              : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.04),
-                        child: Container(
-                          height: Get.height * 0.08,
-                          width: Get.width * 0.4,
-                          decoration: const BoxDecoration(color: Colors.amber),
+                      const Text(
+                        "Selected:",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.04),
-                        child: InfoTiles(
-                          onTap: () {},
-                          iconImage: "assets/icons/location_icon.png",
-                          text: "GET LOCATION",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.03),
-                        child: InfoTiles(
-                          onTap: () {
-                            Get.toNamed(Routes.feeStructure);
-                          },
-                          iconImage: "assets/icons/fee_icon.png",
-                          text: "FEE STRUCTURE",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.03),
-                        child: InfoTiles(
-                          onTap: () {
-                            Get.toNamed(Routes.faculty);
-                          },
-                          iconImage: "assets/icons/faculty_icon.png",
-                          text: "FACULTY",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.03),
-                        child: InfoTiles(
-                          onTap: () {
-                            Get.toNamed(Routes.eligibility);
-                          },
-                          iconImage: "assets/icons/eligibility_icon.png",
-                          text: "ELIGIBILITY CRITERIA",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.03),
-                        child: InfoTiles(
-                          onTap: () {
-                            Get.toNamed(Routes.programs);
-                          },
-                          iconImage: "assets/icons/programs_icon.png",
-                          text: "VIEW ALL PROGRAMS",
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.03),
-                        child: Center(
-                          child: Material(
-                            elevation: 10,
-                            child: Container(
-                              height: Get.height * 0.06,
-                              width: Get.width * 0.3,
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(208, 255, 227, 0.73),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  "Apply Now",
-                                  style: GoogleFonts.inter(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                      decoration: TextDecoration.underline),
-                                ),
-                              ),
-                            ),
-                          ),
+                      Text(
+                        "Peshawar/${widget.uniListArgs.program}/${widget.uniListArgs.universityModel.name}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w300,
                         ),
                       ),
                       const Padding(
@@ -145,47 +79,169 @@ class CourseInfo extends StatelessWidget {
                           thickness: 0.5,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: Get.height * 0.02),
-                child: Center(
-                  child: Material(
-                    elevation: 10,
-                    child: Container(
-                      height: Get.height * 0.06,
-                      width: Get.width * 0.7,
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(208, 255, 227, 0.73),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.04),
+                                child: SizedBox(
+                                  height: Get.height * 0.08,
+                                  width: Get.width * 0.4,
+                                  child: Image.network(
+                                      widget.uniListArgs.universityModel.logo),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.04),
+                                child: InfoTiles(
+                                  onTap: () async {
+                                    final Uri url = Uri.parse(
+                                        "https://goo.gl/maps/8uGY1L1LDtULoYX78");
+
+                                    await launchUrl(url);
+                                  },
+                                  iconImage: "assets/icons/location_icon.png",
+                                  text: "GET LOCATION",
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.03),
+                                child: InfoTiles(
+                                  onTap: () {
+                                    Get.toNamed(Routes.feeStructure,
+                                        arguments: widget.uniListArgs);
+                                  },
+                                  iconImage: "assets/icons/fee_icon.png",
+                                  text: "FEE STRUCTURE",
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.03),
+                                child: InfoTiles(
+                                  onTap: () {
+                                    Get.toNamed(Routes.faculty,
+                                        arguments: widget.uniListArgs);
+                                  },
+                                  iconImage: "assets/icons/faculty_icon.png",
+                                  text: "FACULTY",
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.03),
+                                child: InfoTiles(
+                                  onTap: () {
+                                    Get.toNamed(Routes.eligibility,
+                                        arguments: widget.uniListArgs);
+                                  },
+                                  iconImage:
+                                      "assets/icons/eligibility_icon.png",
+                                  text: "ELIGIBILITY CRITERIA",
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.03),
+                                child: InfoTiles(
+                                  onTap: () {
+                                    Get.toNamed(Routes.programs,
+                                        arguments: widget.uniListArgs);
+                                  },
+                                  iconImage: "assets/icons/programs_icon.png",
+                                  text: "VIEW ALL PROGRAMS",
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    EdgeInsets.only(top: Get.height * 0.03),
+                                child: Center(
+                                  child: Material(
+                                    elevation: 10,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        final Uri url = Uri.parse(widget
+                                            .uniListArgs
+                                            .universityModel
+                                            .applyLink);
+
+                                        await launchUrl(url);
+                                      },
+                                      child: Container(
+                                        height: Get.height * 0.06,
+                                        width: Get.width * 0.3,
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(
+                                              208, 255, 227, 0.73),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            "Apply Now",
+                                            style: GoogleFonts.inter(
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w400,
+                                                decoration:
+                                                    TextDecoration.underline),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.only(top: 12.0),
+                                child: Divider(
+                                  color: Colors.black,
+                                  thickness: 0.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Row(
-                          children: [
-                            Icon(Icons.person, color: Colors.black),
-                            SizedBox(width: 5),
-                            Center(
-                              child: Text(
-                                "TALK TO AN AMBASSADOR",
-                                style: TextStyle(
-                                  fontFamily: 'Kabel-light',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
+                      Padding(
+                        padding: EdgeInsets.only(bottom: Get.height * 0.02),
+                        child: Center(
+                          child: Material(
+                            elevation: 10,
+                            child: Container(
+                              height: Get.height * 0.06,
+                              width: Get.width * 0.7,
+                              decoration: const BoxDecoration(
+                                color: Color.fromRGBO(208, 255, 227, 0.73),
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5),
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.person, color: Colors.black),
+                                    SizedBox(width: 5),
+                                    Center(
+                                      child: Text(
+                                        "TALK TO AN AMBASSADOR",
+                                        style: TextStyle(
+                                          fontFamily: 'Kabel-light',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+        }),
       ),
     );
   }
