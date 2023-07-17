@@ -1,3 +1,5 @@
+import 'package:edunation/modules/auth/sign_up_ambassador/views/sign_up_ambassador.dart';
+import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
 import 'package:edunation/modules/home/controller/course_info_binding.dart';
 import 'package:edunation/modules/home/controller/home_controller_binding.dart';
 import 'package:edunation/modules/home/views/course_info.dart';
@@ -7,9 +9,7 @@ import 'package:edunation/modules/home/views/fee_structure.dart';
 import 'package:edunation/modules/home/views/home.dart';
 import 'package:edunation/modules/home/views/programs.dart';
 import 'package:edunation/modules/home/views/university_list.dart';
-import 'package:edunation/modules/login/views/login.dart';
-import 'package:edunation/modules/sign_up_ambassador/views/sign_up_ambassador.dart';
-import 'package:edunation/modules/sign_up_student/views/sign_up_student.dart';
+import 'package:edunation/modules/auth/login/views/login.dart';
 import 'package:edunation/modules/welcome/views/welcome.dart';
 import 'package:edunation/splash.dart';
 import 'package:get/route_manager.dart';

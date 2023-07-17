@@ -1,4 +1,4 @@
-import 'package:edunation/modules/sign_up_student/views/sign_up_student.dart';
+import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

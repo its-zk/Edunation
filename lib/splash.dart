@@ -1,6 +1,8 @@
+import 'package:edunation/modules/auth/controller/auth_controller.dart';
 import 'package:edunation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -12,9 +14,15 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), () {
-      Get.offAndToNamed(Routes.welcome);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      bool isSignedIn = await Get.find<AuthController>().getCurrentUser();
+      if (isSignedIn) {
+        Get.offAndToNamed(Routes.home);
+      } else {
+        Get.offAndToNamed(Routes.welcome);
+      }
     });
+
     super.initState();
   }
 
@@ -40,7 +48,12 @@ class _SplashState extends State<Splash> {
                     fontSize: 32,
                     color: Color.fromRGBO(70, 79, 88, 1),
                     fontWeight: FontWeight.w400),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                    color: Colors.white, size: 40),
+              ),
             ],
           ),
         ),

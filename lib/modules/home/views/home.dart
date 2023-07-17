@@ -1,6 +1,8 @@
+import 'package:edunation/modules/auth/controller/auth_controller.dart';
 import 'package:edunation/modules/home/controller/home_controller.dart';
 import 'package:edunation/modules/home/views/university_list.dart';
 import 'package:edunation/routes/routes.dart';
+import 'package:edunation/utils/dialogues.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,14 +14,20 @@ class Home extends StatelessWidget {
       cityController = TextEditingController(),
       programController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
+      drawer: const SafeArea(child: HomeDrawer()),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: const Icon(Icons.menu, color: Colors.black),
+        leading: GestureDetector(
+            onTap: () {
+              scaffoldKey.currentState!.openDrawer();
+            },
+            child: const Icon(Icons.menu, color: Colors.black)),
         centerTitle: true,
         title: const Text(
           "EDUNATION",
@@ -387,6 +395,44 @@ class Home extends StatelessWidget {
             );
           }),
         ),
+      ),
+    );
+  }
+}
+
+class HomeDrawer extends StatelessWidget {
+  const HomeDrawer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        // Important: Remove any padding from the ListView.
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            accountName: Text(Get.find<AuthController>().currentUser!.name),
+            accountEmail: Text(Get.find<AuthController>().currentUser!.email),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: Colors.orange,
+              child: Text(
+                Get.find<AuthController>().currentUser!.name[0],
+                style: const TextStyle(fontSize: 40.0, color: Colors.white),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text("Logout"),
+            onTap: () async {
+              showLoadingDialogue(context: context);
+              await Get.find<AuthController>().logout();
+              Get.offAllNamed(Routes.welcome);
+            },
+          ),
+        ],
       ),
     );
   }
