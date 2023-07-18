@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 
 class AuthController extends GetxController {
   final _authRepo = AuthRepo();
+  LoginType loginType = LoginType.student;
   UserModel? currentUser;
   Future<void> createUser(
       {required String name,
@@ -53,10 +54,69 @@ class AuthController extends GetxController {
       await _authRepo.resetPassword(email: email);
 
       Get.back(closeOverlays: true);
+      Get.back();
       Get.snackbar("Email Sent!",
           "An email with password recovery details has been sent to $email",
           colorText: Colors.white, backgroundColor: Colors.green);
-      Get.offAllNamed(Routes.home);
+    } catch (e) {
+      Get.back(closeOverlays: true);
+      Get.snackbar("Error!", e.toString(),
+          colorText: Colors.white, backgroundColor: Colors.red);
+    }
+    update();
+  }
+
+  Future<void> ambassadorSignUp(
+      {required String email,
+      required String name,
+      required String phoneNumber,
+      required String institute,
+      required String department}) async {
+    try {
+      await _authRepo.ambassadorSignUp(
+          email: email,
+          name: name,
+          phoneNumber: phoneNumber,
+          institute: institute,
+          department: department);
+
+      Get.back(closeOverlays: true);
+      Get.defaultDialog(
+          title: 'Success!',
+          titleStyle:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                  "Your sign up request has been successfully made. Please wait for further process through an email.",
+                  textAlign: TextAlign.center),
+              const SizedBox(
+                height: 30.0,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.back(closeOverlays: true);
+                  Get.back();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Home",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+          radius: 10.0);
     } catch (e) {
       Get.back(closeOverlays: true);
       Get.snackbar("Error!", e.toString(),
@@ -80,4 +140,11 @@ class AuthController extends GetxController {
     await FirebaseAuth.instance.signOut();
     update();
   }
+
+  void updateLoginType(LoginType type) {
+    loginType = type;
+    update();
+  }
 }
+
+enum LoginType { student, ambassador }

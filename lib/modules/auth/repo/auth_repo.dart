@@ -40,6 +40,7 @@ class AuthRepo {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
+
       final snapshot = await _firestore
           .collection("users")
           .doc(userCredential.user!.uid)
@@ -91,4 +92,98 @@ class AuthRepo {
       return null;
     }
   }
+
+  Future<void> ambassadorSignUp(
+      {required String email,
+      required String name,
+      required String phoneNumber,
+      required String institute,
+      required String department}) async {
+    try {
+      final snapshot = await _firestore
+          .collection("ambassador-applications")
+          .where("email", isEqualTo: email)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        throw "You have already applied.";
+      } else {
+        await _firestore.collection("ambassador-applications").doc().set({
+          "name": name,
+          "email": email,
+          "phoneNumber": phoneNumber,
+          "institute": institute,
+          "department": department
+        });
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // void createAmbassador() async {
+  //   late String docId;
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS Social Sciences",
+  //     "name": "Ali",
+  //     "email": "ali.social@gmail.com",
+  //     "uid": docId
+  //   });
+
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS Data Science",
+  //     "name": "Fahad",
+  //     "email": "fahad.data@gmail.com",
+  //     "uid": docId
+  //   });
+
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS English",
+  //     "name": "Ghufran",
+  //     "email": "ghufran.english@gmail.com",
+  //     "uid": docId
+  //   });
+
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS BBA",
+  //     "name": "Haider",
+  //     "email": "haider.bba@gmail.com",
+  //     "uid": docId
+  //   });
+
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS Computer Science",
+  //     "name": "Usman",
+  //     "email": "usman.cs@gmail.com",
+  //     "uid": docId
+  //   });
+
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS Software Engineering",
+  //     "name": "Shoaib",
+  //     "email": "shoaib.software@gmail.com",
+  //     "uid": docId
+  //   });
+
+  //   docId = _firestore.collection("dummy").doc().id;
+  //   await _firestore.collection("ambassadors").doc(docId).set({
+  //     "universityId": "qLvIAZ2VV0b3gHPHDqRH",
+  //     "programName": "BS Accounting",
+  //     "name": "Hassan",
+  //     "email": "hassan.accounting@gmail.com",
+  //     "uid": docId
+  //   });
+  // }
 }

@@ -1,5 +1,6 @@
 import 'package:edunation/modules/auth/controller/auth_controller.dart';
 import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
+import 'package:edunation/routes/routes.dart';
 import 'package:edunation/utils/dialogues.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -89,29 +90,67 @@ class Login extends StatelessWidget {
                                         hintText: "EMAIL"),
                                   ),
                                   Padding(
-                                      padding: EdgeInsets.only(
-                                          top: Get.height * 0.02),
-                                      child: SignUpTextField(
-                                          controller: passwordController,
-                                          hintText: "PASSWORD")),
+                                    padding:
+                                        EdgeInsets.only(top: Get.height * 0.02),
+                                    child: SignUpTextField(
+                                        controller: passwordController,
+                                        hintText: "PASSWORD"),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  GetBuilder<AuthController>(
+                                      builder: (controller) {
+                                    return RadioTile(
+                                      onTap: () {
+                                        Get.find<AuthController>()
+                                            .updateLoginType(LoginType.student);
+                                      },
+                                      text: LoginType
+                                          .student.name.capitalizeFirst
+                                          .toString(),
+                                      isSelected: controller.loginType ==
+                                          LoginType.student,
+                                    );
+                                  }),
+                                  const SizedBox(height: 5),
+                                  GetBuilder<AuthController>(
+                                      builder: (controller) {
+                                    return RadioTile(
+                                      onTap: () {
+                                        Get.find<AuthController>()
+                                            .updateLoginType(
+                                                LoginType.ambassador);
+                                      },
+                                      text: LoginType
+                                          .ambassador.name.capitalizeFirst
+                                          .toString(),
+                                      isSelected: controller.loginType ==
+                                          LoginType.ambassador,
+                                    );
+                                  }),
                                   Center(
                                     child: Padding(
                                       padding: EdgeInsets.only(
                                           top: Get.height * 0.015),
                                       child: GestureDetector(
                                         onTap: () async {
-                                          if (formKey.currentState!
-                                              .validate()) {
-                                            showLoadingDialogue(
-                                                context: context);
-                                            await Get.find<AuthController>()
-                                                .login(
-                                              email:
-                                                  emailController.text.trim(),
-                                              password: passwordController.text
-                                                  .trim(),
-                                            );
-                                          }
+                                          Get.offAllNamed(Routes.conversation);
+                                          // if (formKey.currentState!
+                                          //     .validate()) {
+                                          //   if (Get.find<AuthController>()
+                                          //           .loginType ==
+                                          //       LoginType.student) {
+                                          //     showLoadingDialogue(
+                                          //         context: context);
+                                          //     await Get.find<AuthController>()
+                                          //         .login(
+                                          //       email:
+                                          //           emailController.text.trim(),
+                                          //       password: passwordController
+                                          //           .text
+                                          //           .trim(),
+                                          //     );
+                                          //   }
+                                          // }
                                         },
                                         child: Container(
                                           height: Get.height * 0.045,
@@ -140,24 +179,34 @@ class Login extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: Get.height * 0.04),
-                            child: const Column(
+                            child: Column(
                               children: [
-                                Text(
-                                  'FORGOT YOUR PASSWORD?',
-                                  style: TextStyle(
-                                      fontFamily: 'Kumbh-sans',
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromRGBO(138, 138, 138, 1),
-                                      fontSize: 12),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(Routes.forgotPassword);
+                                  },
+                                  child: const Text(
+                                    'FORGOT YOUR PASSWORD?',
+                                    style: TextStyle(
+                                        fontFamily: 'Kumbh-sans',
+                                        fontWeight: FontWeight.w400,
+                                        color: Color.fromRGBO(138, 138, 138, 1),
+                                        fontSize: 12),
+                                  ),
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'HOME PAGE?',
-                                  style: TextStyle(
-                                      fontFamily: 'Kumbh-sans',
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: 12),
+                                const SizedBox(height: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: const Text(
+                                    'HOME PAGE?',
+                                    style: TextStyle(
+                                        fontFamily: 'Kumbh-sans',
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                        fontSize: 12),
+                                  ),
                                 ),
                               ],
                             ),
@@ -171,6 +220,49 @@ class Login extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class RadioTile extends StatelessWidget {
+  const RadioTile(
+      {super.key,
+      required this.isSelected,
+      required this.text,
+      required this.onTap});
+  final bool isSelected;
+  final String text;
+  final Function() onTap;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                border: Border.all(color: Colors.black)),
+            child: Padding(
+              padding: const EdgeInsets.all(2.0),
+              child: Container(
+                height: 10,
+                width: 10,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: isSelected ? Colors.blue : null,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 5),
+          Text(
+            text,
+            style: const TextStyle(fontSize: 16),
+          )
+        ],
       ),
     );
   }

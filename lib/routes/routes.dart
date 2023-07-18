@@ -1,3 +1,5 @@
+import 'package:edunation/modules/ambassador/conversation/views/conversation.dart';
+import 'package:edunation/modules/auth/forgot_password/forgot_password.dart';
 import 'package:edunation/modules/auth/sign_up_ambassador/views/sign_up_ambassador.dart';
 import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
 import 'package:edunation/modules/home/controller/course_info_binding.dart';
@@ -27,6 +29,8 @@ class Routes {
   static const faculty = '/faculty';
   static const eligibility = '/eligibility';
   static const programs = '/programs';
+  static const forgotPassword = '/forgotPassword';
+  static const conversation = '/conversation';
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -81,5 +85,7 @@ class Routes {
         page: () => Programs(
               uniListArgs: Get.arguments as UniListArgs,
             )),
+    GetPage(name: forgotPassword, page: () => ForgotPassword()),
+    GetPage(name: conversation, page: () => const Conversation()),
   ];
 }
