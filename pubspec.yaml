@@ -47,6 +47,7 @@ dependencies:
   freezed: ^2.3.2
   build_runner: ^2.3.3
   loading_animation_widget: ^1.2.0+4
+  chat_bubbles: ^1.4.1
   
 
 dev_dependencies:

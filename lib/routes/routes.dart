@@ -1,15 +1,19 @@
+import 'package:edunation/modules/ambassador/conversation/views/chat.dart';
 import 'package:edunation/modules/ambassador/conversation/views/conversation.dart';
 import 'package:edunation/modules/auth/forgot_password/forgot_password.dart';
 import 'package:edunation/modules/auth/sign_up_ambassador/views/sign_up_ambassador.dart';
 import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
 import 'package:edunation/modules/home/controller/course_info_binding.dart';
 import 'package:edunation/modules/home/controller/home_controller_binding.dart';
+import 'package:edunation/modules/home/controller/student_chat_controller_binding.dart';
+import 'package:edunation/modules/home/models/chat_details_model.dart';
 import 'package:edunation/modules/home/views/course_info.dart';
 import 'package:edunation/modules/home/views/eligibility.dart';
 import 'package:edunation/modules/home/views/faculty.dart';
 import 'package:edunation/modules/home/views/fee_structure.dart';
 import 'package:edunation/modules/home/views/home.dart';
 import 'package:edunation/modules/home/views/programs.dart';
+import 'package:edunation/modules/home/views/student_chat.dart';
 import 'package:edunation/modules/home/views/university_list.dart';
 import 'package:edunation/modules/auth/login/views/login.dart';
 import 'package:edunation/modules/welcome/views/welcome.dart';
@@ -31,6 +35,8 @@ class Routes {
   static const programs = '/programs';
   static const forgotPassword = '/forgotPassword';
   static const conversation = '/conversation';
+  static const chat = '/chat';
+  static const studentChat = '/studentChat';
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -86,6 +92,17 @@ class Routes {
               uniListArgs: Get.arguments as UniListArgs,
             )),
     GetPage(name: forgotPassword, page: () => ForgotPassword()),
-    GetPage(name: conversation, page: () => const Conversation()),
+    GetPage(name: conversation, page: () => Conversation()),
+    GetPage(
+        name: chat,
+        page: () => Chat(
+              chatDetailsModel: Get.arguments as ChatDetailsModel,
+            )),
+    GetPage(
+        name: studentChat,
+        page: () => StudentChat(
+              uniListArgs: Get.arguments as UniListArgs,
+            ),
+        binding: StudentChatControllerBinding()),
   ];
 }

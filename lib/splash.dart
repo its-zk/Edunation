@@ -16,10 +16,16 @@ class _SplashState extends State<Splash> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       bool isSignedIn = await Get.find<AuthController>().getCurrentUser();
+
       if (isSignedIn) {
         Get.offAndToNamed(Routes.home);
       } else {
-        Get.offAndToNamed(Routes.welcome);
+        isSignedIn = await Get.find<AuthController>().getCurrentAmbassador();
+        if (isSignedIn) {
+          Get.offAndToNamed(Routes.conversation);
+        } else {
+          Get.offAndToNamed(Routes.welcome);
+        }
       }
     });
 

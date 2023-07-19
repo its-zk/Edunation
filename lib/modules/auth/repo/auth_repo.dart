@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edunation/modules/auth/models/user_model.dart';
+import 'package:edunation/modules/home/models/ambassador_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepo {
@@ -49,6 +50,36 @@ class AuthRepo {
       if (snapshot.exists) {
         return UserModel.fromJson(snapshot.data()!);
       } else {
+        _auth.signOut();
+        throw "No user record found";
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw ('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        throw ('Wrong password provided for that user.');
+      }
+    } catch (e) {
+      rethrow;
+    }
+    throw "No user record found";
+  }
+
+  Future<AmbassadorModel> ambassadorLogin(
+      {required String email, required String password}) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      final snapshot = await _firestore
+          .collection("ambassadors")
+          .doc(userCredential.user!.uid)
+          .get();
+
+      if (snapshot.exists) {
+        return AmbassadorModel.fromJson(snapshot.data()!);
+      } else {
+        _auth.signOut();
         throw "No user record found";
       }
     } on FirebaseAuthException catch (e) {
@@ -88,6 +119,22 @@ class AuthRepo {
 
     if (snapshot.exists) {
       return UserModel.fromJson(snapshot.data()!);
+    } else {
+      return null;
+    }
+  }
+
+  Future<AmbassadorModel?> getCurrentAmbassador() async {
+    if (_auth.currentUser == null) {
+      return null;
+    }
+    final snapshot = await _firestore
+        .collection("ambassadors")
+        .doc(_auth.currentUser!.uid)
+        .get();
+
+    if (snapshot.exists) {
+      return AmbassadorModel.fromJson(snapshot.data()!);
     } else {
       return null;
     }

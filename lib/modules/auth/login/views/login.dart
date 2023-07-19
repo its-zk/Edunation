@@ -133,24 +133,34 @@ class Login extends StatelessWidget {
                                           top: Get.height * 0.015),
                                       child: GestureDetector(
                                         onTap: () async {
-                                          Get.offAllNamed(Routes.conversation);
-                                          // if (formKey.currentState!
-                                          //     .validate()) {
-                                          //   if (Get.find<AuthController>()
-                                          //           .loginType ==
-                                          //       LoginType.student) {
-                                          //     showLoadingDialogue(
-                                          //         context: context);
-                                          //     await Get.find<AuthController>()
-                                          //         .login(
-                                          //       email:
-                                          //           emailController.text.trim(),
-                                          //       password: passwordController
-                                          //           .text
-                                          //           .trim(),
-                                          //     );
-                                          //   }
-                                          // }
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            if (Get.find<AuthController>()
+                                                    .loginType ==
+                                                LoginType.student) {
+                                              showLoadingDialogue(
+                                                  context: context);
+                                              await Get.find<AuthController>()
+                                                  .login(
+                                                email:
+                                                    emailController.text.trim(),
+                                                password: passwordController
+                                                    .text
+                                                    .trim(),
+                                              );
+                                            } else {
+                                              showLoadingDialogue(
+                                                  context: context);
+                                              await Get.find<AuthController>()
+                                                  .ambassadorLogin(
+                                                email:
+                                                    emailController.text.trim(),
+                                                password: passwordController
+                                                    .text
+                                                    .trim(),
+                                              );
+                                            }
+                                          }
                                         },
                                         child: Container(
                                           height: Get.height * 0.045,

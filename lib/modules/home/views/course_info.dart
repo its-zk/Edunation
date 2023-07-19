@@ -207,31 +207,37 @@ class _CourseInfoState extends State<CourseInfo> {
                       Padding(
                         padding: EdgeInsets.only(bottom: Get.height * 0.02),
                         child: Center(
-                          child: Material(
-                            elevation: 10,
-                            child: Container(
-                              height: Get.height * 0.06,
-                              width: Get.width * 0.7,
-                              decoration: const BoxDecoration(
-                                color: Color.fromRGBO(208, 255, 227, 0.73),
-                              ),
-                              child: const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.person, color: Colors.black),
-                                    SizedBox(width: 5),
-                                    Center(
-                                      child: Text(
-                                        "TALK TO AN AMBASSADOR",
-                                        style: TextStyle(
-                                          fontFamily: 'Kabel-light',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
+                          child: GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.studentChat,
+                                  arguments: widget.uniListArgs);
+                            },
+                            child: Material(
+                              elevation: 10,
+                              child: Container(
+                                height: Get.height * 0.06,
+                                width: Get.width * 0.7,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(208, 255, 227, 0.73),
+                                ),
+                                child: const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 5),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.person, color: Colors.black),
+                                      SizedBox(width: 5),
+                                      Center(
+                                        child: Text(
+                                          "TALK TO AN AMBASSADOR",
+                                          style: TextStyle(
+                                            fontFamily: 'Kabel-light',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),

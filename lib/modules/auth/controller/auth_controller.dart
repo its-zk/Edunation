@@ -1,5 +1,6 @@
 import 'package:edunation/modules/auth/models/user_model.dart';
 import 'package:edunation/modules/auth/repo/auth_repo.dart';
+import 'package:edunation/modules/home/models/ambassador_model.dart';
 import 'package:edunation/routes/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class AuthController extends GetxController {
   final _authRepo = AuthRepo();
   LoginType loginType = LoginType.student;
   UserModel? currentUser;
+  AmbassadorModel? currentAmbassador;
   Future<void> createUser(
       {required String name,
       required String email,
@@ -39,6 +41,25 @@ class AuthController extends GetxController {
       Get.back(closeOverlays: true);
 
       Get.offAllNamed(Routes.home);
+    } catch (e) {
+      Get.back(closeOverlays: true);
+      Get.snackbar("Error!", e.toString(),
+          colorText: Colors.white, backgroundColor: Colors.red);
+    }
+    update();
+  }
+
+  Future<void> ambassadorLogin({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      currentAmbassador =
+          await _authRepo.ambassadorLogin(email: email, password: password);
+
+      Get.back(closeOverlays: true);
+
+      Get.offAllNamed(Routes.conversation);
     } catch (e) {
       Get.back(closeOverlays: true);
       Get.snackbar("Error!", e.toString(),
@@ -135,8 +156,19 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<bool> getCurrentAmbassador() async {
+    currentAmbassador = await _authRepo.getCurrentAmbassador();
+    update();
+    if (currentAmbassador == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   Future<void> logout() async {
     currentUser = null;
+    currentAmbassador = null;
     await FirebaseAuth.instance.signOut();
     update();
   }
