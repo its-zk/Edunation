@@ -24,6 +24,8 @@ mixin _$ChatDetailsModel {
   String get ambassadorId => throw _privateConstructorUsedError;
   String get studentId => throw _privateConstructorUsedError;
   String get studentName => throw _privateConstructorUsedError;
+  @DateTimeTimeStampConverter()
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,8 @@ abstract class $ChatDetailsModelCopyWith<$Res> {
       {String lastMsg,
       String ambassadorId,
       String studentId,
-      String studentName});
+      String studentName,
+      @DateTimeTimeStampConverter() DateTime createdAt});
 }
 
 /// @nodoc
@@ -61,6 +64,7 @@ class _$ChatDetailsModelCopyWithImpl<$Res, $Val extends ChatDetailsModel>
     Object? ambassadorId = null,
     Object? studentId = null,
     Object? studentName = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       lastMsg: null == lastMsg
@@ -79,6 +83,10 @@ class _$ChatDetailsModelCopyWithImpl<$Res, $Val extends ChatDetailsModel>
           ? _value.studentName
           : studentName // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -95,7 +103,8 @@ abstract class _$$_ChatDetailsModelCopyWith<$Res>
       {String lastMsg,
       String ambassadorId,
       String studentId,
-      String studentName});
+      String studentName,
+      @DateTimeTimeStampConverter() DateTime createdAt});
 }
 
 /// @nodoc
@@ -113,6 +122,7 @@ class __$$_ChatDetailsModelCopyWithImpl<$Res>
     Object? ambassadorId = null,
     Object? studentId = null,
     Object? studentName = null,
+    Object? createdAt = null,
   }) {
     return _then(_$_ChatDetailsModel(
       lastMsg: null == lastMsg
@@ -131,6 +141,10 @@ class __$$_ChatDetailsModelCopyWithImpl<$Res>
           ? _value.studentName
           : studentName // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -143,7 +157,8 @@ class _$_ChatDetailsModel extends _ChatDetailsModel {
       {required this.lastMsg,
       required this.ambassadorId,
       required this.studentId,
-      required this.studentName})
+      required this.studentName,
+      @DateTimeTimeStampConverter() required this.createdAt})
       : super._();
 
   factory _$_ChatDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -157,10 +172,13 @@ class _$_ChatDetailsModel extends _ChatDetailsModel {
   final String studentId;
   @override
   final String studentName;
+  @override
+  @DateTimeTimeStampConverter()
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'ChatDetailsModel(lastMsg: $lastMsg, ambassadorId: $ambassadorId, studentId: $studentId, studentName: $studentName)';
+    return 'ChatDetailsModel(lastMsg: $lastMsg, ambassadorId: $ambassadorId, studentId: $studentId, studentName: $studentName, createdAt: $createdAt)';
   }
 
   @override
@@ -174,13 +192,15 @@ class _$_ChatDetailsModel extends _ChatDetailsModel {
             (identical(other.studentId, studentId) ||
                 other.studentId == studentId) &&
             (identical(other.studentName, studentName) ||
-                other.studentName == studentName));
+                other.studentName == studentName) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, lastMsg, ambassadorId, studentId, studentName);
+  int get hashCode => Object.hash(
+      runtimeType, lastMsg, ambassadorId, studentId, studentName, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -198,10 +218,12 @@ class _$_ChatDetailsModel extends _ChatDetailsModel {
 
 abstract class _ChatDetailsModel extends ChatDetailsModel {
   const factory _ChatDetailsModel(
-      {required final String lastMsg,
-      required final String ambassadorId,
-      required final String studentId,
-      required final String studentName}) = _$_ChatDetailsModel;
+          {required final String lastMsg,
+          required final String ambassadorId,
+          required final String studentId,
+          required final String studentName,
+          @DateTimeTimeStampConverter() required final DateTime createdAt}) =
+      _$_ChatDetailsModel;
   const _ChatDetailsModel._() : super._();
 
   factory _ChatDetailsModel.fromJson(Map<String, dynamic> json) =
@@ -215,6 +237,9 @@ abstract class _ChatDetailsModel extends ChatDetailsModel {
   String get studentId;
   @override
   String get studentName;
+  @override
+  @DateTimeTimeStampConverter()
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_ChatDetailsModelCopyWith<_$_ChatDetailsModel> get copyWith =>

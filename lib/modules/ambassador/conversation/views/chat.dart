@@ -108,7 +108,8 @@ class Chat extends StatelessWidget {
                             lastMsg: textcontroller.text.trim(),
                             ambassadorId: ambassadorId,
                             studentId: studentUid,
-                            studentName: chatDetailsModel.studentName);
+                            studentName: chatDetailsModel.studentName,
+                            createdAt: DateTime.now());
                         ChatModel chatModel = ChatModel(
                             msg: textcontroller.text.trim(),
                             fromStudent: false,

@@ -154,7 +154,8 @@ class _StudentChatState extends State<StudentChat> {
                                         studentId: studentUid,
                                         studentName: Get.find<AuthController>()
                                             .currentUser!
-                                            .name);
+                                            .name,
+                                        createdAt: DateTime.now());
                                 ChatModel chatModel = ChatModel(
                                     msg: textcontroller.text.trim(),
                                     fromStudent: true,

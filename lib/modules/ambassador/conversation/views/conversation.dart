@@ -43,6 +43,8 @@ class Conversation extends StatelessWidget {
                         : snapshot.data!.docs
                             .map((e) => ChatDetailsModel.fromJson(e.data()))
                             .toList();
+                conversations
+                    .sort((a, b) => a.createdAt.compareTo(b.createdAt));
                 return snapshot.connectionState == ConnectionState.waiting
                     ? Center(
                         child: LoadingAnimationWidget.threeRotatingDots(

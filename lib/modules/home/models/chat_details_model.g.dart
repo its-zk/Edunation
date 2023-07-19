@@ -12,6 +12,8 @@ _$_ChatDetailsModel _$$_ChatDetailsModelFromJson(Map<String, dynamic> json) =>
       ambassadorId: json['ambassadorId'] as String,
       studentId: json['studentId'] as String,
       studentName: json['studentName'] as String,
+      createdAt: const DateTimeTimeStampConverter()
+          .fromJson(json['createdAt'] as Timestamp),
     );
 
 Map<String, dynamic> _$$_ChatDetailsModelToJson(_$_ChatDetailsModel instance) =>
@@ -20,6 +22,8 @@ Map<String, dynamic> _$$_ChatDetailsModelToJson(_$_ChatDetailsModel instance) =>
       'ambassadorId': instance.ambassadorId,
       'studentId': instance.studentId,
       'studentName': instance.studentName,
+      'createdAt':
+          const DateTimeTimeStampConverter().toJson(instance.createdAt),
     };
 
 _$_ChatModel _$$_ChatModelFromJson(Map<String, dynamic> json) => _$_ChatModel(

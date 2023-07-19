@@ -14,6 +14,7 @@ abstract class ChatDetailsModel implements _$ChatDetailsModel {
     required String ambassadorId,
     required String studentId,
     required String studentName,
+    @DateTimeTimeStampConverter() required DateTime createdAt,
   }) = _ChatDetailsModel;
 
   factory ChatDetailsModel.fromJson(Map<String, dynamic> json) =>
