@@ -689,7 +689,9 @@ class _FeeComparsionState extends State<FeeComparsion> {
                                                 .feeStructureModelProgram1!
                                                 .link);
 
-                                            await launchUrl(url);
+                                            await launchUrl(url,
+                                                mode: LaunchMode
+                                                    .externalNonBrowserApplication);
                                           })
                                   ]),
                             ),
