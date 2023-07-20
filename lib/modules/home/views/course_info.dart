@@ -169,7 +169,9 @@ class _CourseInfoState extends State<CourseInfo> {
                                             .universityModel
                                             .applyLink);
 
-                                        await launchUrl(url);
+                                        await launchUrl(url,
+                                            mode:
+                                                LaunchMode.externalApplication);
                                       },
                                       child: Container(
                                         height: Get.height * 0.06,

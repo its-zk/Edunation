@@ -1,5 +1,6 @@
 import 'package:edunation/modules/auth/controller/auth_controller.dart';
 import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
+import 'package:edunation/routes/routes.dart';
 import 'package:edunation/utils/dialogues.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -131,26 +132,19 @@ class ForgotPassword extends StatelessWidget {
                           ),
                           Padding(
                             padding: EdgeInsets.only(bottom: Get.height * 0.04),
-                            child: const Column(
-                              children: [
-                                Text(
-                                  'FORGOT YOUR PASSWORD?',
-                                  style: TextStyle(
-                                      fontFamily: 'Kumbh-sans',
-                                      fontWeight: FontWeight.w400,
-                                      color: Color.fromRGBO(138, 138, 138, 1),
-                                      fontSize: 12),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  'HOME PAGE?',
-                                  style: TextStyle(
-                                      fontFamily: 'Kumbh-sans',
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
-                                      fontSize: 12),
-                                ),
-                              ],
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.offNamedUntil(
+                                    Routes.welcome, (route) => false);
+                              },
+                              child: const Text(
+                                'HOME PAGE?',
+                                style: TextStyle(
+                                    fontFamily: 'Kumbh-sans',
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                    fontSize: 12),
+                              ),
                             ),
                           )
                         ],

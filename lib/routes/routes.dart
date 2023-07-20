@@ -4,13 +4,17 @@ import 'package:edunation/modules/auth/forgot_password/forgot_password.dart';
 import 'package:edunation/modules/auth/sign_up_ambassador/views/sign_up_ambassador.dart';
 import 'package:edunation/modules/auth/sign_up_student/views/sign_up_student.dart';
 import 'package:edunation/modules/home/controller/course_info_binding.dart';
+import 'package:edunation/modules/home/controller/fee_comparison_controller_binding.dart';
 import 'package:edunation/modules/home/controller/home_controller_binding.dart';
 import 'package:edunation/modules/home/controller/student_chat_controller_binding.dart';
 import 'package:edunation/modules/home/models/chat_details_model.dart';
+import 'package:edunation/modules/home/views/compare_fee_structures.dart';
 import 'package:edunation/modules/home/views/course_info.dart';
 import 'package:edunation/modules/home/views/eligibility.dart';
 import 'package:edunation/modules/home/views/faculty.dart';
+import 'package:edunation/modules/home/views/fee_comparison.dart';
 import 'package:edunation/modules/home/views/fee_structure.dart';
+import 'package:edunation/modules/home/views/explore_universities.dart';
 import 'package:edunation/modules/home/views/home.dart';
 import 'package:edunation/modules/home/views/programs.dart';
 import 'package:edunation/modules/home/views/student_chat.dart';
@@ -37,6 +41,9 @@ class Routes {
   static const conversation = '/conversation';
   static const chat = '/chat';
   static const studentChat = '/studentChat';
+  static const exploreUniversities = '/exploreUniversities';
+  static const compareFeeStructures = '/compareFeeStructures';
+  static const feeComparison = '/feeComparison';
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -59,7 +66,21 @@ class Routes {
       name: login,
       page: () => Login(),
     ),
-    GetPage(name: home, page: () => Home(), binding: HomeControllerBinding()),
+    GetPage(name: home, page: () => Home()),
+    GetPage(
+        name: exploreUniversities,
+        page: () => ExploreUniversities(),
+        binding: HomeControllerBinding()),
+    GetPage(
+        name: feeComparison,
+        page: () => FeeComparsion(
+              feeComparisonArgs: Get.arguments as FeeComparisonArgs,
+            ),
+        binding: FeeComparisonControllerBinding()),
+    GetPage(
+        name: compareFeeStructures,
+        page: () => CompareFeeStructures(),
+        binding: HomeControllerBinding()),
     GetPage(
         name: universityList,
         page: () => UniversityList(

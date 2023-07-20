@@ -44,7 +44,7 @@ class Conversation extends StatelessWidget {
                             .map((e) => ChatDetailsModel.fromJson(e.data()))
                             .toList();
                 conversations
-                    .sort((a, b) => a.createdAt.compareTo(b.createdAt));
+                    .sort((a, b) => b.createdAt.compareTo(a.createdAt));
                 return snapshot.connectionState == ConnectionState.waiting
                     ? Center(
                         child: LoadingAnimationWidget.threeRotatingDots(

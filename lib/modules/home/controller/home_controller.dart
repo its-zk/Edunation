@@ -14,6 +14,7 @@ class HomeController extends GetxController {
   SearchTypes? selectedSearchType;
   bool isUniversityLoaded = false;
   String? selectedUniversity, selectedCity, selectedProgram;
+  String? selectedProgram1, selectedProgram2;
   List<UniversityModel> allUniversities = [], filteredUniversities = [];
   Future<void> getUniversities() async {
     try {
@@ -88,20 +89,65 @@ class HomeController extends GetxController {
     }
   }
 
-  void updateSelectedUniversity(String val) {
-    selectedUniversity = val;
-    update();
+  void updateSelectedUniversity(String val, bool fromOnChanged) {
+    if (fromOnChanged) {
+      if (selectedUniversity != null) {
+        selectedUniversity = null;
+        update();
+      }
+    } else {
+      selectedUniversity = val;
+      update();
+    }
   }
 
-  void updateSelectedCity(String val) {
-    selectedCity = val;
-    update();
+  void updateSelectedCity(String val, bool fromOnChanged) {
+    if (fromOnChanged) {
+      if (selectedCity != null) {
+        selectedCity = null;
+        update();
+      }
+    } else {
+      selectedCity = val;
+      update();
+    }
   }
 
-  void updateSelectedProgram(String val) {
-    selectedProgram = val;
-    update();
+  void updateSelectedProgram(String val, bool fromOnChanged) {
+    if (fromOnChanged) {
+      if (selectedProgram != null) {
+        selectedProgram = null;
+        update();
+      }
+    } else {
+      selectedProgram = val;
+      update();
+    }
+  }
+
+  void updateSelectedCompareProgram1(String val, bool fromOnChanged) {
+    if (fromOnChanged) {
+      if (selectedProgram1 != null) {
+        selectedProgram1 = null;
+        update();
+      }
+    } else {
+      selectedProgram1 = val;
+      update();
+    }
+  }
+
+  void updateSelectedCompareProgram2(String val, bool fromOnChanged) {
+    if (fromOnChanged) {
+      if (selectedProgram2 != null) {
+        selectedProgram2 = null;
+        update();
+      }
+    } else {
+      selectedProgram2 = val;
+      update();
+    }
   }
 }
 
-enum SearchTypes { university, city, program }
+enum SearchTypes { university, city, program, program1, program2 }

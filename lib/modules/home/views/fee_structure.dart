@@ -331,7 +331,9 @@ class FeeStructure extends StatelessWidget {
                                       final Uri url = Uri.parse(
                                           controller.feeStructureModel!.link);
 
-                                      await launchUrl(url);
+                                      await launchUrl(url,
+                                          mode: LaunchMode
+                                              .externalNonBrowserApplication);
                                     })
                             ]),
                       ),
