@@ -75,7 +75,7 @@ class Welcome extends StatelessWidget {
                           padding: EdgeInsets.only(
                               top: Get.height * 0.08, left: 20, right: 20),
                           child: const Text(
-                            '“EDUNATION is an all-in-one platform where you\'ll have no issue in findingthe right university for yourself.”',
+                            '“EDUNATION is an all-in-one platform where you\'ll have no issue in finding the right university for yourself.”',
                             style: TextStyle(
                                 fontFamily: 'Kabel-light',
                                 fontWeight: FontWeight.w300,
