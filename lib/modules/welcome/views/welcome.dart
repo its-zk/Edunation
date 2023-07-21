@@ -80,6 +80,7 @@ class Welcome extends StatelessWidget {
                                 fontFamily: 'Kabel-light',
                                 fontWeight: FontWeight.w300,
                                 color: Colors.black,
+                                height: 1.2,
                                 fontSize: 15),
                             textAlign: TextAlign.center,
                           ),
