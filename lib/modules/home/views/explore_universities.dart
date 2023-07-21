@@ -1,3 +1,4 @@
+import 'package:edunation/modules/common/models/university_model.dart';
 import 'package:edunation/modules/home/controller/home_controller.dart';
 import 'package:edunation/modules/home/views/university_list.dart';
 import 'package:edunation/routes/routes.dart';
@@ -182,14 +183,17 @@ class ExploreUniversities extends StatelessWidget {
                                 }
                                 if (formKey.currentState!.validate()) {
                                   UniListArgs uniListArgs = UniListArgs(
-                                      program: programController.text,
-                                      universityModel: homeController
-                                          .filteredUniversities
-                                          .firstWhere((element) =>
-                                              element.name.toLowerCase() ==
-                                              universityController.text
-                                                  .toLowerCase()
-                                                  .trim()));
+                                      program: homeController.selectedProgram!,
+                                      universityModel: const UniversityModel(
+                                        applyLink: '',
+                                        departments: {},
+                                        id: '',
+                                        location: '',
+                                        logo: '',
+                                        name: '',
+                                        programs: [],
+                                      ),
+                                      cityName: homeController.selectedCity!);
                                   Get.toNamed(Routes.universityList,
                                       arguments: uniListArgs);
                                 }

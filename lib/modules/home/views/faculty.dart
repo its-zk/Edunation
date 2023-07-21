@@ -45,7 +45,7 @@ class Faculty extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Peshawar/${uniListArgs.program}/${uniListArgs.universityModel.name}/Faculty",
+                    "${uniListArgs.cityName}/${uniListArgs.program}/${uniListArgs.universityModel.name}/Faculty",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,

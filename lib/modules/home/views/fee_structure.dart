@@ -44,7 +44,7 @@ class FeeStructure extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Peshawar/${uniListArgs.program}/${uniListArgs.universityModel.name}/Fee Structure",
+                    "${uniListArgs.cityName}/${uniListArgs.program}/${uniListArgs.universityModel.name}/Fee Structure",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,

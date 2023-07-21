@@ -1,11 +1,28 @@
 import 'package:edunation/modules/common/models/university_model.dart';
+import 'package:edunation/modules/home/controller/home_controller.dart';
 import 'package:edunation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class UniversityList extends StatelessWidget {
+class UniversityList extends StatefulWidget {
   const UniversityList({super.key, required this.uniListArgs});
   final UniListArgs uniListArgs;
+
+  @override
+  State<UniversityList> createState() => _UniversityListState();
+}
+
+class _UniversityListState extends State<UniversityList> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      Get.find<HomeController>()
+          .getUniversities(programName: widget.uniListArgs.program);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,42 +47,76 @@ class UniversityList extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Selected:",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              Text(
-                "Peshawar/${uniListArgs.program}",
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 12.0),
-                child: Divider(
-                  color: Colors.black,
-                  thickness: 0.5,
-                ),
-              ),
-              UniversityCard(
-                location: uniListArgs.universityModel.location,
-                totalSemesters: '8',
-                totalYears: '4',
-                uniName: uniListArgs.universityModel.name,
-                image: uniListArgs.universityModel.logo,
-                onReadMore: () {
-                  Get.toNamed(Routes.courseInfo, arguments: uniListArgs);
-                },
-              ),
-            ],
-          ),
+          child: GetBuilder<HomeController>(builder: (controller) {
+            return !controller.isUniversityLoaded
+                ? Center(
+                    child: LoadingAnimationWidget.threeRotatingDots(
+                        color: Colors.blue, size: 40))
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Selected:",
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        "${widget.uniListArgs.cityName}/${widget.uniListArgs.program}",
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 12.0),
+                        child: Divider(
+                          color: Colors.black,
+                          thickness: 0.5,
+                        ),
+                      ),
+                      widget.uniListArgs.cityName.toLowerCase() != 'peshawar'
+                          ? const Expanded(
+                              child: Center(
+                                child: Text(
+                                  "Universities with selected program are not available for this city.",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                  itemCount: controller.allUniversities.length,
+                                  itemBuilder: (context, index) {
+                                    return UniversityCard(
+                                      location: controller.allUniversities
+                                          .elementAt(index)
+                                          .location,
+                                      totalSemesters: '8',
+                                      totalYears: '4',
+                                      uniName: controller.allUniversities
+                                          .elementAt(index)
+                                          .name,
+                                      image: controller.allUniversities
+                                          .elementAt(index)
+                                          .logo,
+                                      onReadMore: () {
+                                        UniListArgs uniListArgs = UniListArgs(
+                                            program: widget.uniListArgs.program,
+                                            cityName:
+                                                widget.uniListArgs.cityName,
+                                            universityModel: controller
+                                                .allUniversities
+                                                .elementAt(index));
+                                        Get.toNamed(Routes.courseInfo,
+                                            arguments: uniListArgs);
+                                      },
+                                    );
+                                  }))
+                    ],
+                  );
+          }),
         ),
       ),
     );
@@ -189,7 +240,12 @@ class UniversityCard extends StatelessWidget {
 }
 
 class UniListArgs {
-  UniListArgs({required this.program, required this.universityModel});
-  final UniversityModel universityModel;
+  UniListArgs(
+      {required this.program,
+      required this.cityName,
+      required this.universityModel});
+
   final String program;
+  final String cityName;
+  final UniversityModel universityModel;
 }

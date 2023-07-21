@@ -66,7 +66,7 @@ class _CourseInfoState extends State<CourseInfo> {
                         ),
                       ),
                       Text(
-                        "Peshawar/${widget.uniListArgs.program}/${widget.uniListArgs.universityModel.name}",
+                        "${widget.uniListArgs.cityName}/${widget.uniListArgs.program}/${widget.uniListArgs.universityModel.name}",
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w300,

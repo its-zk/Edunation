@@ -44,7 +44,7 @@ class Eligibility extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Peshawar/${uniListArgs.program}/${uniListArgs.universityModel.name}/Eligibility",
+                    "${uniListArgs.cityName}/${uniListArgs.program}/${uniListArgs.universityModel.name}/Eligibility",
                     style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w300,

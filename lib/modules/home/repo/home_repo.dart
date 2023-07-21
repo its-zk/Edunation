@@ -8,7 +8,7 @@ import 'package:edunation/modules/home/models/fee_structure_model.dart';
 class HomeRepo {
   final _firestore = FirebaseFirestore.instance;
 
-  Future<List<UniversityModel>> getUniversities() async {
+  Future<List<UniversityModel>> getAllUniversities() async {
     try {
       final snapshot = await _firestore.collection("universities").get();
 
@@ -96,6 +96,25 @@ class HomeRepo {
         throw "An error occured";
       } else {
         return AmbassadorModel.fromJson(snapshot.docs.first.data());
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<List<UniversityModel>> getUniversities(
+      {required String programName}) async {
+    try {
+      final snapshot = await _firestore
+          .collection("universities")
+          .where("programs", arrayContainsAny: [programName]).get();
+
+      if (snapshot.docs.isEmpty) {
+        throw "An error occured";
+      } else {
+        return snapshot.docs
+            .map((e) => UniversityModel.fromJson(e.data()))
+            .toList();
       }
     } catch (e) {
       rethrow;

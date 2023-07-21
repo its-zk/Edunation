@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   @override
   void onInit() {
-    getUniversities();
+    getAllUniversities();
     super.onInit();
   }
 
@@ -15,7 +15,7 @@ class HomeController extends GetxController {
   bool isUniversityLoaded = false;
   String? selectedUniversity, selectedCity, selectedProgram;
   String? selectedProgram1, selectedProgram2;
-  List<String> cities = ['Peshawar', 'Mardan', 'Nowshera'];
+  List<String> cities = ['Peshawar', 'Mardan', 'Nowshera', 'Abottobad'];
   List<String> programs = [
     'BS Software Engineering',
     'BS Computer Science',
@@ -27,13 +27,31 @@ class HomeController extends GetxController {
     'BS Economics'
   ];
   List<UniversityModel> allUniversities = [], filteredUniversities = [];
-  Future<void> getUniversities() async {
+
+  Future<void> getAllUniversities() async {
     try {
       isUniversityLoaded = false;
 
       update();
       final repo = HomeRepo();
-      allUniversities = await repo.getUniversities();
+      allUniversities = await repo.getAllUniversities();
+      filteredUniversities = [...allUniversities];
+      isUniversityLoaded = true;
+    } catch (e) {
+      isUniversityLoaded = true;
+      Get.snackbar("Error!", e.toString(),
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
+    update();
+  }
+
+  Future<void> getUniversities({required String programName}) async {
+    try {
+      isUniversityLoaded = false;
+
+      update();
+      final repo = HomeRepo();
+      allUniversities = await repo.getUniversities(programName: programName);
       filteredUniversities = [...allUniversities];
       isUniversityLoaded = true;
     } catch (e) {
