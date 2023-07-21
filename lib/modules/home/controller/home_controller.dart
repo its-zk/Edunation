@@ -15,6 +15,17 @@ class HomeController extends GetxController {
   bool isUniversityLoaded = false;
   String? selectedUniversity, selectedCity, selectedProgram;
   String? selectedProgram1, selectedProgram2;
+  List<String> cities = ['Peshawar', 'Mardan', 'Nowshera'];
+  List<String> programs = [
+    'BS Software Engineering',
+    'BS Computer Science',
+    'BS English',
+    'BBA',
+    'BS Accounting',
+    'BS Data Science',
+    'BS Social Sciences',
+    'BS Economics'
+  ];
   List<UniversityModel> allUniversities = [], filteredUniversities = [];
   Future<void> getUniversities() async {
     try {
@@ -101,28 +112,14 @@ class HomeController extends GetxController {
     }
   }
 
-  void updateSelectedCity(String val, bool fromOnChanged) {
-    if (fromOnChanged) {
-      if (selectedCity != null) {
-        selectedCity = null;
-        update();
-      }
-    } else {
-      selectedCity = val;
-      update();
-    }
+  void updateSelectedCity(String? val) {
+    selectedCity = val;
+    update();
   }
 
-  void updateSelectedProgram(String val, bool fromOnChanged) {
-    if (fromOnChanged) {
-      if (selectedProgram != null) {
-        selectedProgram = null;
-        update();
-      }
-    } else {
-      selectedProgram = val;
-      update();
-    }
+  void updateSelectedProgram(String? val) {
+    selectedProgram = val;
+    update();
   }
 
   void updateSelectedCompareProgram1(String val, bool fromOnChanged) {

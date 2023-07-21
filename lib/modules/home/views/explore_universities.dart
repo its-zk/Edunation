@@ -4,7 +4,6 @@ import 'package:edunation/routes/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ExploreUniversities extends StatelessWidget {
   ExploreUniversities({super.key});
@@ -38,334 +37,185 @@ class ExploreUniversities extends StatelessWidget {
         child: GestureDetector(
           onTap: () {
             FocusManager.instance.primaryFocus?.unfocus();
-            Get.find<HomeController>().updateShowSuggestions(false);
-            Get.find<HomeController>().updateSearchType(null);
-            Get.find<HomeController>()
-                .filterUniversities(name: '', reset: true);
           },
           child: GetBuilder<HomeController>(builder: (homeController) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: Get.width * 0.08),
               child: SingleChildScrollView(
                 child: GetBuilder<HomeController>(builder: (homeController) {
-                  if (homeController.selectedUniversity != null) {
-                    universityController.text =
-                        homeController.selectedUniversity!;
-                  }
-                  if (homeController.selectedCity != null) {
-                    cityController.text = homeController.selectedCity!;
-                  }
-                  if (homeController.selectedProgram != null) {
-                    programController.text = homeController.selectedProgram!;
-                  }
-                  return !homeController.isUniversityLoaded
-                      ? Center(
-                          child: LoadingAnimationWidget.threeRotatingDots(
-                              color: Colors.blue, size: 40))
-                      : Form(
-                          key: formKey,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: Get.height * 0.04),
-                                child: HomeFieldSection(
-                                  onEditingComplete: () {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    Get.find<HomeController>()
-                                        .filterUniversities(
-                                            name: '', reset: true);
-                                  },
-                                  onFieldSubmitted: (val) {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    Get.find<HomeController>()
-                                        .filterUniversities(
-                                            name: '', reset: true);
-                                  },
-                                  onSaved: (val) {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                    Get.find<HomeController>()
-                                        .filterUniversities(
-                                            name: '', reset: true);
-                                  },
-                                  onChanged: (val) {
-                                    Get.find<HomeController>()
-                                        .updateSelectedUniversity("", true);
-                                    Get.find<HomeController>()
-                                        .filterUniversities(
-                                            name: val, reset: false);
-                                    if (val.isEmpty) {
-                                      Get.find<HomeController>()
-                                          .updateShowSuggestions(false);
-                                      Get.find<HomeController>()
-                                          .updateSearchType(null);
-                                    } else {
-                                      Get.find<HomeController>()
-                                          .updateShowSuggestions(true);
-                                      Get.find<HomeController>()
-                                          .updateSearchType(
-                                              SearchTypes.university);
-                                    }
-                                  },
-                                  onTap: () {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  showSuggestions:
-                                      homeController.showSuggestions &&
-                                          homeController.selectedSearchType ==
-                                              SearchTypes.university,
-                                  dropDownList: homeController
-                                          .filteredUniversities.isEmpty
-                                      ? ['No results found']
-                                      : homeController.filteredUniversities
-                                          .map((e) => e.name)
-                                          .toList(),
-                                  sectionTitle: 'Select University',
-                                  searchType: SearchTypes.university,
-                                  controller: universityController,
-                                ),
+                  return Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: Get.height * 0.1),
+                          child: const Divider(
+                            color: Colors.black,
+                            thickness: 0.5,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: Get.height * 0.08),
+                          child: const Text(
+                            "Select your City",
+                            style: TextStyle(
+                                fontFamily: "Kabel-light",
+                                fontWeight: FontWeight.w300,
+                                fontSize: 13),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Material(
+                            elevation: 15.0,
+                            shadowColor: Colors.black,
+                            child: DropdownButtonFormField(
+                              value: homeController.selectedCity,
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return "Mandantory";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent))),
+                              isExpanded: true,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              hint: const Text(
+                                "City",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: Get.height * 0.08),
-                                child: const Divider(
-                                  color: Colors.black,
-                                  thickness: 0.5,
-                                ),
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items: homeController.cities.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                homeController.updateSelectedCity(newValue);
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: Get.height * 0.1),
+                          child: const Text(
+                            "Select your Program",
+                            style: TextStyle(
+                                fontFamily: "Kabel-light",
+                                fontWeight: FontWeight.w300,
+                                fontSize: 13),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Material(
+                            elevation: 15.0,
+                            shadowColor: Colors.black,
+                            child: DropdownButtonFormField(
+                              validator: (val) {
+                                if (val == null || val.isEmpty) {
+                                  return "Mandantory";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              value: homeController.selectedProgram,
+                              decoration: const InputDecoration(
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors.transparent))),
+                              elevation: 0,
+                              isExpanded: true,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              hint: const Text(
+                                "Program",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: Get.height * 0.04),
-                                child: HomeFieldSection(
-                                  onEditingComplete: () {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  onFieldSubmitted: (val) {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  onSaved: (val) {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  onChanged: (val) {
-                                    Get.find<HomeController>()
-                                        .updateSelectedCity("", true);
-                                    if (val.isEmpty) {
-                                      Get.find<HomeController>()
-                                          .updateShowSuggestions(false);
-                                      Get.find<HomeController>()
-                                          .updateSearchType(null);
-                                    } else {
-                                      Get.find<HomeController>()
-                                          .updateShowSuggestions(true);
-                                      Get.find<HomeController>()
-                                          .updateSearchType(SearchTypes.city);
-                                    }
-                                  },
-                                  onTap: () {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  showSuggestions:
-                                      homeController.showSuggestions &&
-                                          homeController.selectedSearchType ==
-                                              SearchTypes.city,
-                                  dropDownList: const ['Peshawar'],
-                                  sectionTitle: 'Select your City',
-                                  searchType: SearchTypes.city,
-                                  controller: cityController,
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              items:
+                                  homeController.programs.map((String items) {
+                                return DropdownMenuItem(
+                                  value: items,
+                                  child: Text(items),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                homeController.updateSelectedProgram(newValue);
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: Get.height * 0.08),
+                          child: const Divider(
+                            color: Colors.black,
+                            thickness: 0.5,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: Get.height * 0.1),
+                          child: Material(
+                            elevation: 10.0,
+                            shadowColor: Colors.black,
+                            child: GestureDetector(
+                              onTap: () {
+                                if (homeController.selectedUniversity == null) {
+                                  universityController.clear();
+                                }
+                                if (homeController.selectedCity == null) {
+                                  cityController.clear();
+                                }
+                                if (homeController.selectedProgram == null) {
+                                  programController.clear();
+                                }
+                                if (formKey.currentState!.validate()) {
+                                  UniListArgs uniListArgs = UniListArgs(
+                                      program: programController.text,
+                                      universityModel: homeController
+                                          .filteredUniversities
+                                          .firstWhere((element) =>
+                                              element.name.toLowerCase() ==
+                                              universityController.text
+                                                  .toLowerCase()
+                                                  .trim()));
+                                  Get.toNamed(Routes.universityList,
+                                      arguments: uniListArgs);
+                                }
+                              },
+                              child: Container(
+                                height: Get.height * 0.06,
+                                width: Get.width,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromRGBO(233, 255, 235, 0.73),
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: Get.height * 0.04),
-                                child: HomeFieldSection(
-                                  controller: programController,
-                                  onEditingComplete: () {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  onFieldSubmitted: (val) {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  onSaved: (val) {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  onChanged: (val) {
-                                    Get.find<HomeController>()
-                                        .updateSelectedProgram("", true);
-                                    if (homeController.selectedUniversity !=
-                                        null) {
-                                      Get.find<HomeController>().filterPrograms(
-                                          uniName: homeController
-                                              .selectedUniversity!,
-                                          program: val,
-                                          reset: false);
-                                    }
-                                    if (val.isEmpty) {
-                                      Get.find<HomeController>()
-                                          .updateShowSuggestions(false);
-                                      Get.find<HomeController>()
-                                          .updateSearchType(null);
-                                    } else {
-                                      Get.find<HomeController>()
-                                          .updateShowSuggestions(true);
-                                      Get.find<HomeController>()
-                                          .updateSearchType(
-                                              SearchTypes.program);
-                                    }
-                                  },
-                                  onTap: () {
-                                    Get.find<HomeController>()
-                                        .updateShowSuggestions(false);
-                                    Get.find<HomeController>()
-                                        .updateSearchType(null);
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  showSuggestions:
-                                      homeController.showSuggestions &&
-                                          homeController.selectedSearchType ==
-                                              SearchTypes.program,
-                                  dropDownList: homeController
-                                              .selectedUniversity ==
-                                          null
-                                      ? ['No university selected']
-                                      : homeController.filteredUniversities
-                                              .firstWhere((element) =>
-                                                  element.name ==
-                                                  homeController
-                                                      .selectedUniversity)
-                                              .programs
-                                              .isEmpty
-                                          ? ['No results found']
-                                          : homeController.filteredUniversities
-                                              .firstWhere((element) =>
-                                                  element.name ==
-                                                  homeController
-                                                      .selectedUniversity)
-                                              .programs,
-                                  sectionTitle: 'Select your Program',
-                                  searchType: SearchTypes.program,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: Get.height * 0.08),
-                                child: const Divider(
-                                  color: Colors.black,
-                                  thickness: 0.5,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: Get.height * 0.1),
-                                child: Material(
-                                  elevation: 10.0,
-                                  shadowColor: Colors.black,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (homeController.selectedUniversity ==
-                                          null) {
-                                        universityController.clear();
-                                      }
-                                      if (homeController.selectedCity == null) {
-                                        cityController.clear();
-                                      }
-                                      if (homeController.selectedProgram ==
-                                          null) {
-                                        programController.clear();
-                                      }
-                                      if (formKey.currentState!.validate()) {
-                                        UniListArgs uniListArgs = UniListArgs(
-                                            program: programController.text,
-                                            universityModel: homeController
-                                                .filteredUniversities
-                                                .firstWhere((element) =>
-                                                    element.name
-                                                        .toLowerCase() ==
-                                                    universityController.text
-                                                        .toLowerCase()
-                                                        .trim()));
-                                        Get.toNamed(Routes.universityList,
-                                            arguments: uniListArgs);
-                                      }
-                                    },
-                                    child: Container(
-                                      height: Get.height * 0.06,
-                                      width: Get.width,
-                                      decoration: const BoxDecoration(
-                                        color:
-                                            Color.fromRGBO(233, 255, 235, 0.73),
-                                      ),
-                                      child: const Center(
-                                        child: Text(
-                                          "NEXT",
-                                          style: TextStyle(
-                                              fontFamily: 'Kabel-light',
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: 12),
-                                        ),
-                                      ),
-                                    ),
+                                child: const Center(
+                                  child: Text(
+                                    "NEXT",
+                                    style: TextStyle(
+                                        fontFamily: 'Kabel-light',
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 12),
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        );
+                        ),
+                      ],
+                    ),
+                  );
                 }),
               ),
             );
@@ -485,12 +335,12 @@ class HomeFieldSection extends StatelessWidget {
                                       .updateSelectedUniversity(
                                           dropDownList.elementAt(index), false);
                                 } else if (searchType == SearchTypes.city) {
-                                  Get.find<HomeController>().updateSelectedCity(
-                                      dropDownList.elementAt(index), false);
+                                  // Get.find<HomeController>().updateSelectedCity(
+                                  //     dropDownList.elementAt(index), false);
                                 } else if (searchType == SearchTypes.program) {
-                                  Get.find<HomeController>()
-                                      .updateSelectedProgram(
-                                          dropDownList.elementAt(index), false);
+                                  // Get.find<HomeController>()
+                                  //     .updateSelectedProgram(
+                                  //         dropDownList.elementAt(index), false);
                                 }
                                 Get.find<HomeController>()
                                     .updateShowSuggestions(false);
