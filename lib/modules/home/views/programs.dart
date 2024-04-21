@@ -81,7 +81,7 @@ class Programs extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Eligibility Criteria",
+                              "View All Programs",
                               style: TextStyle(
                                   fontFamily: 'Advent-pro',
                                   fontSize: 16,
